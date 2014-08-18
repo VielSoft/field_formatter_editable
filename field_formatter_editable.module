@@ -197,13 +197,20 @@ function field_formatter_editable_preprocess_page(&$variables) {
     }
 
     // Pre-load the Ckeditor for Inline editing.
-    if (!in_array('sites/all/libraries/ckeditor/ckeditor.js', $scripts)) {
-      drupal_add_js('sites/all/libraries/ckeditor/ckeditor.js', array(
-        'scope' => 'footer',
-        'group' => JS_THEME,
-        'every_page' => TRUE,
-        'weight' => -3,
-      ));
+    if (module_exists('libraries')) {
+      $libraries = libraries_get_libraries();
+
+      if (array_key_exists('ckeditor', $libraries)) {
+        $ck_path = $libraries['ckeditor'];
+        if (!in_array($ck_path . '/ckeditor.js', $scripts)) {
+          drupal_add_js($ck_path . '/ckeditor.js', array(
+            'scope' => 'footer',
+            'group' => JS_THEME,
+            'every_page' => TRUE,
+            'weight' => -3,
+          ));
+        }
+      }
     }
 
     // Make sure that base_url is available on xeditor.js.
