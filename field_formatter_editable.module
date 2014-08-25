@@ -34,7 +34,7 @@ function field_formatter_editable_callback() {
     // Load node object, bypass the cache system.
     $node = node_load($nid, NULL, TRUE);
     $url_arg = (isset($_POST['arg']) ? $_POST['arg'] : '');
-    // Input format.
+    // Load the default format.
     $format = filter_format_load('filtered_html');
 
     // Filter the raw data.
@@ -174,10 +174,10 @@ function field_formatter_editable_preprocess_page(&$variables) {
     drupal_add_css(drupal_get_path('module', 'field_formatter_editable') . '/css/editable.css');
 
     // Pass the User-defined Ckeditor plugins to Drupal.behaviors.
-    //$data = field_formatter_editable_get_ckeditor_plugin();
-    //ckeditor_get_user_plugins_to_bahaviors($data);
+    $data = field_formatter_editable_get_ckeditor_plugin();
+    ckeditor_get_user_plugins_to_bahaviors($data);
 
-    // Extend edit module edit.js functionality.
+    // Load all assets needed for inline-editing.
     $js_files = array(
       'xeditor.js',
       'xeditor_core.js',
