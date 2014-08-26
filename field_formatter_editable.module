@@ -362,7 +362,7 @@ function ckeditor_get_user_plugins_to_bahaviors($data) {
 
   // Get the values of the toolbar array.
   // Set to a new array key. This key will be used by JSON parser later on.
-  $input_json['plugins'] = array_values($toolbar);
+  $input_json = array_values($toolbar);
 
   // Encode the arrays.
   $to_json =  json_encode($input_json);
