@@ -6,6 +6,16 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function field_formatter_editable_install() {
+  // Set the jQuery Update jQuery version as default
+  // is having conflict with xEditor js.
+  variable_set('jquery_update_jquery_version', '1.7');
+}
+
+
+/**
  * Implements hook_uninstall().
  */
 function field_formatter_editable_uninstall() {
@@ -15,7 +25,7 @@ function field_formatter_editable_uninstall() {
     foreach ($field['bundles'] as $entity_type => $bundles) {
       foreach ($bundles as $bundle) {
 
-        // get the instance settings from the database
+        // Get the instance settings from the database.
         $instance = db_select('field_config_instance', 'fci')
           ->fields('fci', array('data'))
           ->condition('field_name', $field['field_name'])
@@ -26,14 +36,14 @@ function field_formatter_editable_uninstall() {
 
         $instance = unserialize($instance);
 
-        // remove the display settings provided by this module
+        // Remove the display settings provided by this module.
         foreach ($instance['display'] as &$display) {
           if (isset($display['settings']['contenteditable'])) {
             unset($display['settings']['contenteditable']);
           }
         }
 
-        // re-serialize the instance, then save back to the database
+        // Re-serialize the instance, then save back to the database.
         $instance = serialize($instance);
         db_update('field_config_instance')
           ->fields(array('data' => $instance))
@@ -46,7 +56,7 @@ function field_formatter_editable_uninstall() {
   }
   field_cache_clear();
 
-  // views displays
+  // Views displays.
   if (db_table_exists('views_display')) {
     // Getting all view displays from database.
     $view_displays = db_select('views_display', 'vd')
@@ -60,7 +70,7 @@ function field_formatter_editable_uninstall() {
 
       $display_options = unserialize($view_display->display_options);
 
-      // remove the display settings provided by this module
+      // Remove the display settings provided by this module.
       if (isset($display_options['fields'])) {
         foreach ($display_options['fields'] as &$field) {
           $settings = &$field['settings'];
