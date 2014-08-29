@@ -382,7 +382,7 @@ function field_formatter_editable_get_ckeditor_plugin($reset = FALSE) {
       $cached_data = unserialize($cache->data);
     }
     else {
-      // Do your expensive calculations here, and populate $my_data
+      // Do your expensive calculations here, and populate $cached_data
       // with the correct stuff..
       $cached_data = db_select('ckeditor_settings', 'cs')
            ->fields('cs', array('settings'))
